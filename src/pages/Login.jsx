@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
   const [username, setUsername] = useState("");
@@ -12,7 +13,7 @@ function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

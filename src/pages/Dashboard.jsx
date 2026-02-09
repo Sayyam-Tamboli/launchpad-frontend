@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import TileCard from "../components/TileCard";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+if (!import.meta.env.VITE_API_BASE_URL) {
+  console.warn("VITE_API_BASE_URL not set — using fallback:", API_BASE);
+}
 
 function Dashboard({
   theme,
@@ -26,7 +30,7 @@ function Dashboard({
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:8080/api/tiles", {
+      const res = await fetch(`${API_BASE}/tiles`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
