@@ -1,42 +1,97 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ===== Global Layout ===== */
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Premium layered background */
+.app-background {
+  background: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.15), transparent),
+              radial-gradient(circle at 80% 80%, rgba(99,102,241,0.15), transparent),
+              #020617;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* ===== Sidebar ===== */
+
+.sidebar {
+  width: 240px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 32px;
 }
 
-.card {
-  padding: 2em;
+.sidebar-item {
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.sidebar-item:hover {
+  background: rgba(56,189,248,0.15);
+}
+
+.sidebar-item.active {
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  color: white;
+  box-shadow: 0 0 20px rgba(56,189,248,0.4);
+}
+
+/* ===== Header ===== */
+
+.header {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== Tile Card ===== */
+
+.tile-card {
+  padding: 24px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.tile-card.online:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(56,189,248,0.25);
+}
+
+.status-badge {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Pulse dot */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(1); }
 }

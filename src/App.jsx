@@ -47,10 +47,10 @@ if (!isAuthenticated) {
   // 🧭 MAIN APP
   return (
     <div
+      className="app-background"
       style={{
         display: "flex",
         height: "100vh",
-        background: theme.colors.background,
         color: theme.colors.textPrimary,
       }}
     >

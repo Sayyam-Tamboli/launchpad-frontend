@@ -68,16 +68,14 @@ function Dashboard({
     <div style={{ flex: 1 }}>
       {/* HEADER */}
       <header
+        className="header"
         style={{
-          height: 64,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0 32px",
           borderBottom: `1px solid ${theme.colors.border}`,
         }}
       >
-        <strong>Dashboard</strong>
+        <strong style={{ fontSize: 18 }}>
+          Welcome back 👋
+        </strong>
 
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <button
@@ -88,7 +86,6 @@ function Dashboard({
               cursor: "pointer",
               fontSize: 18,
             }}
-            title="Toggle theme"
           >
             {darkMode ? "☀️" : "🌙"}
           </button>
@@ -102,7 +99,6 @@ function Dashboard({
               fontWeight: 600,
               cursor: "pointer",
             }}
-            title="Logout"
           >
             ⎋ Log out
           </button>
