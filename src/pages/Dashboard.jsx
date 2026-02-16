@@ -48,7 +48,7 @@ function Dashboard({ activePage, onLogout }) {
   return (
     <div style={{ flex: 1, color: "#e2e8f0" }}>
       <header className="header">
-        <strong>Welcome 👋</strong>
+        <strong>Welcome Back 👋</strong>
 
         <button
           onClick={onLogout}
