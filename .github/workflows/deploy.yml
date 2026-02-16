@@ -24,33 +24,20 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      # 🔥 STEP 1: Clean production directory
-      - name: Clear old files on server
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            rm -rf /srv/launchpad-frontend/*
-
-      # 🔥 STEP 2: Copy fresh build
-      - name: Copy new build to server
+      - name: Deploy via SCP (clean replace)
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/*"
-          target: "/srv/launchpad-frontend"
-          strip_components: 1
+          target: "/srv/launchpad-frontend/"
+          rm: true
 
-      # 🔥 STEP 3: Reload nginx
       - name: Reload Nginx
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            sudo systemctl reload nginx
+          script: sudo systemctl reload nginx
