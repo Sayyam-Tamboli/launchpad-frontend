@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Setup Node
@@ -24,7 +24,18 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Copy Files to Server
+      # 🔥 STEP 1: Clean production directory
+      - name: Clear old files on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            rm -rf /srv/launchpad-frontend/*
+
+      # 🔥 STEP 2: Copy fresh build
+      - name: Copy new build to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -32,8 +43,9 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/*"
           target: "/srv/launchpad-frontend"
-          overwrite: true
+          strip_components: 1
 
+      # 🔥 STEP 3: Reload nginx
       - name: Reload Nginx
         uses: appleboy/ssh-action@v1.0.0
         with:
