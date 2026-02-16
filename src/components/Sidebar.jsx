@@ -1,18 +1,11 @@
-function Sidebar({ theme, activePage, onNavigate }) {
+function Sidebar({ activePage, onNavigate }) {
   return (
-    <aside
-      className="sidebar"
-      style={{
-        background: theme.colors.sidebar,
-        borderRight: `1px solid ${theme.colors.border}`,
-        color: theme.colors.textPrimary,
-      }}
-    >
+    <aside className="sidebar">
       <div className="sidebar-title">
         🚀 Nexus LaunchPad
       </div>
 
-      <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <Item
           label="Dashboard"
           active={activePage === "DASHBOARD"}
@@ -23,7 +16,7 @@ function Sidebar({ theme, activePage, onNavigate }) {
           active={activePage === "SETTINGS"}
           onClick={() => onNavigate("SETTINGS")}
         />
-      </nav>
+      </div>
     </aside>
   );
 }

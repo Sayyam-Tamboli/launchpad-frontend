@@ -1,7 +1,8 @@
 import { useState } from "react";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
+function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -16,10 +17,10 @@ function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
-    });
+      });
 
       if (!res.ok) {
         throw new Error("Invalid username or password");
@@ -35,84 +36,40 @@ function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
   };
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: darkMode ? "#020617" : "#f8fafc",
-        color: darkMode ? "#e5e7eb" : "#0f172a",
-        position: "relative",
-      }}
-    >
-      {/* 🌗 Theme toggle */}
-      <button
-        onClick={onToggleTheme}
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 20,
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          fontSize: 18,
-        }}
-      >
-        {darkMode ? "☀️" : "🌙"}
-      </button>
-
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          width: 360,
-          padding: 32,
-          borderRadius: 16,
-          background: darkMode ? "#020617" : "#ffffff",
-          boxShadow: darkMode
-            ? "0 10px 40px rgba(0,0,0,0.8)"
-            : "0 10px 30px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h2 style={{ marginBottom: 24, textAlign: "center" }}>
-          🚀 Launch Pad Login
-        </h2>
+    <div className="login-wrapper">
+      <form className="login-card" onSubmit={handleSubmit}>
+        <h2>🚀 Nexus LaunchPad</h2>
+        <p style={{ color: "#94a3b8" }}>
+          Sign in to access your workspace
+        </p>
 
         <input
+          className="login-input"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={inputStyle(darkMode)}
         />
 
         <input
           type="password"
+          className="login-input"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={inputStyle(darkMode)}
         />
 
         {error && (
-          <p style={{ color: "#f87171", marginTop: 8 }}>{error}</p>
+          <div style={{ color: "#ef4444", marginBottom: 12 }}>
+            {error}
+          </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          style={{
-            width: "100%",
-            marginTop: 20,
-            padding: 12,
-            borderRadius: 8,
-            border: "none",
-            background: "#38bdf8",
-            color: "#020617",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
+          className="login-btn"
         >
           {loading ? "Signing in…" : "Login"}
         </button>
@@ -120,15 +77,5 @@ function Login({ onLoginSuccess, darkMode, onToggleTheme }) {
     </div>
   );
 }
-
-const inputStyle = (darkMode) => ({
-  width: "100%",
-  padding: 12,
-  marginBottom: 12,
-  borderRadius: 8,
-  border: "1px solid #1e293b",
-  background: darkMode ? "#020617" : "#ffffff",
-  color: darkMode ? "#e5e7eb" : "#0f172a",
-});
 
 export default Login;

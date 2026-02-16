@@ -1,4 +1,4 @@
-function TileCard({ tile, theme }) {
+function TileCard({ tile }) {
   const isOnline = tile.status === "ONLINE";
 
   const handleClick = () => {
@@ -12,31 +12,31 @@ function TileCard({ tile, theme }) {
       onClick={handleClick}
       className={`tile-card ${isOnline ? "online" : ""}`}
       style={{
-        background: theme.colors.surface,
-        boxShadow: theme.colors.cardShadow,
         cursor: isOnline ? "pointer" : "default",
-        opacity: isOnline ? 1 : 0.55,
+        opacity: isOnline ? 1 : 0.6,
       }}
     >
       <div style={{ fontSize: 28 }}>{tile.icon}</div>
 
       <h3 style={{ marginTop: 12 }}>{tile.name}</h3>
 
-      <p style={{ color: theme.colors.textSecondary }}>
+      <p style={{ color: "#94a3b8" }}>
         {tile.description}
       </p>
 
       <div
         className="status-badge"
         style={{
-          background: isOnline ? "#dcfce7" : "#fee2e2",
-          color: isOnline ? "#166534" : "#991b1b",
+          background: isOnline
+            ? "rgba(34,197,94,0.15)"
+            : "rgba(239,68,68,0.15)",
+          color: isOnline ? "#22c55e" : "#ef4444",
         }}
       >
         <div
           className="pulse-dot"
           style={{
-            background: isOnline ? "#16a34a" : "#dc2626",
+            background: isOnline ? "#22c55e" : "#ef4444",
             animation: isOnline ? "pulse 1.5s infinite" : "none",
           }}
         />
