@@ -24,27 +24,24 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      # Copy build to temporary folder first
-      - name: Copy Build to Temp Folder
+      - name: Deploy Build to Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "dist/*"
-          target: "/srv/launchpad-frontend-temp/"
+          source: "dist"
+          target: "/srv/launchpad-frontend"
+          strip_components: 1
+          overwrite: true
 
-      # Replace production safely
-      - name: Replace Production Files
+      - name: Fix Permissions & Reload
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            rm -rf /srv/launchpad-frontend/*
-            mv /srv/launchpad-frontend-temp/* /srv/launchpad-frontend/
-            rm -rf /srv/launchpad-frontend-temp
             chown -R www-data:www-data /srv/launchpad-frontend
             chmod -R 755 /srv/launchpad-frontend
             sudo systemctl reload nginx
