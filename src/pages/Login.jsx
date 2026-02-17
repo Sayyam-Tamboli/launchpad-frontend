@@ -1,78 +1,49 @@
 import { useState } from "react";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
-function Login({ onLoginSuccess }) {
+function Login({ onLoginSuccess, darkMode, toggleTheme }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
 
-    try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
 
-      if (!res.ok) {
-        throw new Error("Invalid username or password");
-      }
-
-      const data = await res.json();
-      onLoginSuccess(data.token);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    const data = await res.json();
+    if (data.token) onLoginSuccess(data.token);
   };
 
   return (
-    <div className="login-wrapper">
+    <div className={`login-page ${darkMode ? "dark" : "light"}`}>
+
+      <button className="login-toggle" onClick={toggleTheme}>
+        {darkMode ? "🌙" : "☀️"}
+      </button>
+
       <form className="login-card" onSubmit={handleSubmit}>
-        <h2>🚀 Nexus LaunchPad</h2>
-        <p style={{ color: "#94a3b8" }}>
-          Sign in to access your workspace
-        </p>
+        <h2>Nexus AI Control Center</h2>
 
         <input
-          className="login-input"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
+          onChange={e => setUsername(e.target.value)}
         />
 
         <input
           type="password"
-          className="login-input"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          onChange={e => setPassword(e.target.value)}
         />
 
-        {error && (
-          <div style={{ color: "#ef4444", marginBottom: 12 }}>
-            {error}
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="login-btn"
-        >
-          {loading ? "Signing in…" : "Login"}
-        </button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
